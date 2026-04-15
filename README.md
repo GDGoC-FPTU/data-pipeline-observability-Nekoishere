@@ -1,8 +1,8 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=23574124&assignment_repo_type=AssignmentRepo)
 # Day 10 Lab: Data Pipeline & Data Observability
 
-**Student Email:** email@example.com
-**Name:** (Dien ten cua ban)
+**Student Email:** 26ai.minhtn@vinuni.edu.vn    
+**Name:** Tran Nhat Minh
 
 ---
 
@@ -26,9 +26,9 @@ python solution.py
 
 ### Chay Agent Simulation (Stress Test)
 ```bash
-# Mo ta cach ban chay thi nghiem Clean vs Garbage data
+python generate_garbage.py
+python agent_simulation.py
 ```
-
 ---
 
 ## Cau truc thu muc
@@ -45,3 +45,10 @@ python solution.py
 ## Ket qua
 
 (Tom tat ket qua: bao nhieu records da xu ly, bao nhieu bi loai, v.v.)
+### CLEAN Data
+So luong record da xu ly: 6
+So luong record bi loai: 2
+
+### GARBAGE Data
+So luong record da xu ly: 5
+So luong record bi loai: 1

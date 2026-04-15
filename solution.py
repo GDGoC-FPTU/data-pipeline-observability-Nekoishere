@@ -41,13 +41,15 @@ def extract(file_path):
     Returns:
         list: Danh sach cac records (dictionaries)
     """
+    data = []
     print(f"Extracting data from {file_path}...")
-    # TODO: Viet code doc file JSON o day
-    # Vi du:
-    #   with open(file_path, 'r') as f:
-    #       data = json.load(f)
-    #   return data
-    pass
+    try:
+        with open(file_path, 'r', encoding = "utf-8") as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        print(f"File path {file_path} not found")
+        return None
+    return data
 
 
 def validate(data):
@@ -68,9 +70,18 @@ def validate(data):
     """
     valid_records = []
     error_count = 0
-
+    dropped_records = []
     # TODO: Lap qua data, kiem tra tung record
     # Giu lai record hop le, dem record loi
+    for item in data:
+        if item.get("price", 0) <= 0:
+            error_count += 1
+            continue
+
+        if not item.get("category"):
+            error_count += 1
+
+        valid_records.append(item)
 
     print(f"Validation complete. Valid: {len(valid_records)}, Errors: {error_count}")
     return valid_records
@@ -94,8 +105,12 @@ def transform(data):
     Returns:
         pd.DataFrame: DataFrame da duoc transform
     """
-    # TODO: Tao DataFrame va ap dung transformations
-    pass
+    df = pd.DataFrame(data)
+    df['discounted_price'] = df['price'] * 0.9
+    df['category'] = df['category'].str.title()
+    df['processed_at'] = datetime.datetime.now().isoformat()
+
+    return df
 
 
 def load(df, output_path):
@@ -105,7 +120,7 @@ def load(df, output_path):
     Goi y:
        - df.to_csv(output_path, index=False)
     """
-    # TODO: Luu DataFrame ra CSV
+    df.to_csv(output_path, index = False)
     print(f"Data saved to {output_path}")
 
 
@@ -119,7 +134,8 @@ if __name__ == "__main__":
 
     # 1. Extract
     raw_data = extract(SOURCE_FILE)
-
+    print(raw_data)
+    print()
     if raw_data:
         # 2. Validate
         clean_data = validate(raw_data)
