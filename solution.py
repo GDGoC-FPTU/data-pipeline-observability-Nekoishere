@@ -47,8 +47,8 @@ def extract(file_path):
         with open(file_path, 'r', encoding = "utf-8") as file:
             data = json.load(file)
     except FileNotFoundError:
-        print(f"File path {file_path} not found")
-        return None
+        print(f"Error: {file_path} not found.")
+        return []
     return data
 
 
@@ -70,20 +70,26 @@ def validate(data):
     """
     valid_records = []
     error_count = 0
+    dropped_records = []
     # TODO: Lap qua data, kiem tra tung record
     # Giu lai record hop le, dem record loi
     for item in data:
         if item.get("price", 0) <= 0:
+            dropped_records.append({"id": item.get('id'), "reason": "Price <= 0"})
             error_count += 1
             continue
 
         if not item.get("category"):
+            dropped_records.append({"id": item.get('id'), "reason": "Missing Category"})
             error_count += 1
             continue
         valid_records.append(item)
 
     print(f"Validation complete. Valid: {len(valid_records)}, Errors: {error_count}")
+    if dropped_records:
+        print(f"Errors found: {dropped_records}")
     return valid_records
+
 
 
 def transform(data):
