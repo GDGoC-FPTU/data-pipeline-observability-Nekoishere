@@ -70,7 +70,6 @@ def validate(data):
     """
     valid_records = []
     error_count = 0
-    dropped_records = []
     # TODO: Lap qua data, kiem tra tung record
     # Giu lai record hop le, dem record loi
     for item in data:
@@ -80,7 +79,7 @@ def validate(data):
 
         if not item.get("category"):
             error_count += 1
-
+            continue
         valid_records.append(item)
 
     print(f"Validation complete. Valid: {len(valid_records)}, Errors: {error_count}")
